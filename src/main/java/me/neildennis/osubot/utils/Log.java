@@ -11,8 +11,7 @@ public class Log {
 	}
 
 	public static void debug(Object msg){
-		if (debug)
-			System.out.println("[DEBUG] " + msg);
+		if (debug) System.out.println("[DEBUG] " + msg);
 	}
 
 }
