@@ -20,18 +20,20 @@ public class BotEvents extends ListenerAdapter{
 	public void onPrivateMessage(PrivateMessageEvent e){
 		Log.debug(e.getUser().getNick() + ": " + e.getMessage());
 		if (e.getMessage().startsWith("!")){
-			String[] args = e.getMessage().substring(1).trim().split(" ");
-			if (args.length==0) {
+			String[] cmdstr = e.getMessage().substring(1).trim().split(" ");
+			if (cmdstr.length==0) {
 				e.respond("Invalid command");
 				return;
 			}
 			
-			Command cmd = cmdhandle.getHandler(args[0]);
+			Command cmd = cmdhandle.getHandler(cmdstr[0]);
 			
 			if (cmd==null) {
 				e.respond("Invalid command");
 				return;
 			}
+			
+			String[] args = e.getMessage().substring(1).replace(cmdstr[0], "").trim().split(" ");
 			
 			cmd.handle(args, e.getUser());
 		}
