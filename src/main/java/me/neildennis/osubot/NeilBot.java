@@ -6,6 +6,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 
 import me.neildennis.osubot.commands.HelpCommand;
+import me.neildennis.osubot.commands.LookupCommand;
 import me.neildennis.osubot.commands.TestCommand;
 import me.neildennis.osubot.handlers.CommandHandler;
 import me.neildennis.osubot.utils.Config;
@@ -48,6 +49,7 @@ public class NeilBot {
 		cmd = new CommandHandler();
 		cmd.registerCommand("test", new TestCommand());
 		cmd.registerCommand("help", new HelpCommand());
+		cmd.registerCommand("lookup", new LookupCommand());
 		
 		Configuration<PircBotX> config = new Configuration.Builder()
 				.setName(username)
