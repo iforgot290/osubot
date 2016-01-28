@@ -10,6 +10,7 @@ import me.neildennis.osubot.commands.LookupCommand;
 import me.neildennis.osubot.commands.TestCommand;
 import me.neildennis.osubot.handlers.CommandHandler;
 import me.neildennis.osubot.utils.Config;
+import me.neildennis.osubot.utils.Lang;
 import me.neildennis.osubot.utils.Log;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -35,8 +36,8 @@ public class NeilBot {
 	public static void main(String[] args){
 		Log.debug("Generating configs");
 		Config.generateConfig();
+		Lang.generateLang();
 		
-		//set osu api key as system property
 		Properties sysprop = System.getProperties();
 		sysprop.setProperty("osu.apikey", Config.getString("osu.apikey"));
 		

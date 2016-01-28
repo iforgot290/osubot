@@ -15,7 +15,6 @@ public class Config {
 	
 	public static void generateConfig(){
 		File file = new File("config.properties");
-		Log.debug(file.getAbsolutePath());
 		prop = new Properties();
 		if (file.exists()) {
 			try {
