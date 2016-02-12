@@ -18,40 +18,50 @@ public class LookupCommand extends Command{
 		lookups = new HashMap<String, String>();
 		lastmap = new HashMap<String, String>();
 	}
+	
+	public String getLastMap(String nick){
+		return lastmap.get(nick);
+	}
+	
+	public String getLastUser(String nick){
+		return lookups.get(nick);
+	}
 
 	@Override
 	public void handle(String[] args, User user) {
 		String nick = user.getNick();
+		String last = getLastMap(nick);
+		
 		if (args.length==1 && args[0].length()>1){
-			lookups.put(nick, args[0]);
-			String last = lastmap.get(nick);
+			String lookupname = args[0];
+			lookups.put(nick, lookupname);
 
 			if (last == null){
 				user.send().message("User lookup scores set to " + Lang.getUserUrl(args[0]));
 			} else {
 				try {
-					UserScore score = OsuApi.getUserScore(args[0], true, last);
-					user.send().message(args[0] + ": " + score.getPP() + "pp");
+					UserScore score = OsuApi.getUserScore(lookupname, true, last);
+					user.send().message(lookupname + ": " + score.getPP() + "pp");
 				} catch (IOException e) {
 					e.printStackTrace();
 					user.send().message(Lang.getString("error.apiconnect"));
 				}
 			}
 		} else if (args.length>1){
-			String lookup = lookups.get(user.getNick());
-			if (lookup == null) lookup = user.getNick();
+			String lookup = getLastUser(nick);
+			String bid = args[0];
+			if (lookup == null) lookup = nick;
 
 			try {
-				UserScore score = OsuApi.getUserScore(lookup, true, args[0]);
+				UserScore score = OsuApi.getUserScore(lookup, true, bid);
 				user.send().message(lookup + ": " + score.getPP() + "pp");
-				lastmap.put(nick, args[0]);
+				lastmap.put(nick, bid);
 			} catch (IOException e) {
 				e.printStackTrace();
 				user.send().message(Lang.getString("error.apiconnect"));
 			}
 		} else {
 			lookups.remove(nick);
-			String last = lastmap.get(nick);
 
 			if (last == null){
 				user.send().message("User lookup scores set to " + Lang.getUserUrl(nick));
